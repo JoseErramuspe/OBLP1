@@ -1,11 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión</title>
-</head>
-<body>
-    
-</body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Obl1-P1-371643-353422-05/2026</title>
+	</head>
+	<body>
+        <h1>Sistema de Gestión (Torres-Erramuspe)</h1>
+        <section>
+            <h3>Manejo de Influencers</h3>
+            <article>
+                <h4>Alta de influencers</h4>
+                <input type="button" value="Agregar influencer" id="botonAltaInf">
+            </article>
+            <article>
+                <h4>Datos del influencer a agregar</h4>
+                <h4>Influencer</h4>
+                <form id="formInfluencer">
+                    <label for="idNombre">Nombre</label>
+                    <input type="text" id="idNombre">
+                    <label for="idMail">Mail</label>
+                    <input type="text" id="idMail">
+                    <label for="idComision">% Comisión</label>
+                    <input type="text" id="idComision">
+                    <input type="button" value="Cancelar" id="botonCanInf">
+                    <input type="button" value="Agregar" id="botonAgrInf">
+                </form>
+            </article>
+            <article>
+                <h4>Tabla de influencers</h4>
+                <table>
+                    <tr>
+                        <th>
+                            <input type="button" value="Nombre ↑↓" id="botonListInf">
+                        </th>
+                        <th>Email</th>
+                        <th>% Comisión</th>
+                        <th>Total a cobrar</th>
+                        <th>Etiquetas</th>
+                        <th>Detalle</th>
+                    </tr>
+                    <tr>
+                        <td>Ana Pérez</td>
+                        <td>ana.perez@email.com</td>
+                        <td>20%</td>
+                        <td>$ 600</td>
+                        <td>🔥🟢</td>
+                        <td>
+                            <input type="button" value="Ventas">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Juan Gómez</td>
+                        <td>juan.gomez@email.com</td>
+                        <td>10%</td>
+                        <td>$ 30</td>
+                        <td></td>
+                        <td>
+                            <input type="button" value="Ventas">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lucía Martínez</td>
+                        <td>lucia.martinez@email.com</td>
+                        <td>95%</td>
+                        <td>$ 0</td>
+                        <td>🧊​</td>
+                        <td>
+                            <input type="button" value="Ventas">
+                        </td>
+                    </tr>
+                    <!--alt+24 es ↑, alt+25 es ↓, 🔥​🧊​🟢​❌⭐​​-->
+                </table>
+            <p>Información: 🔥Top comisión (cobra más $) 🧊Cero ventas 🟢Venta más cara (mayor monto en una sola venta)</p>
+            </article>
+        </section>
+        <section>
+            <h3>Manejo de Artículos</h3>
+            <article>
+                <h4>Alta de artículo</h4>
+                <input type="button" value="Agregar artículo" id="botonAltaArt">
+            </article>
+            <article>
+                <h4>Datos del artículo a agregar</h4>
+                <h4>Artículo</h4>
+                <form id="formArticulo">
+                    <label for="idCodigo">Código</label>
+                    <input type="text" id="idCodigo">
+                    <label for="idDesc">Descripción</label>
+                    <input type="text" id="idDesc">
+                    <label for="idPrecio">Precio</label>
+                    <input type="text" id="idPrecio">
+                    <input type="button" value="Cancelar" id="botonCanArt">
+                    <input type="button" value="Agregar" id="botonAgrArt">
+                </form>
+            </article>
+            <article>
+                <h4>Tabla de artículos</h4>
+                <table>
+                    <tr>
+                        <th>
+                            <input type="button" value="Código ↑↓">
+                        </th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                    <tr>
+                        <td>A001⭐​</td>
+                        <td>Remera algodón básica</td>
+                        <td>$ 1000</td>
+                    </tr>
+                    <tr>
+                        <td>A002</td>
+                        <td>Zapatillas deportivas</td>
+                        <td>$ 300</td>
+                    </tr>
+                    <tr>
+                        <td>A003</td>
+                        <td>Gorra ajustable</td>
+                        <td>$ 500</td>
+                    </tr>
+                    <!--alt+24 es ↑, alt+25 es ↓, 🔥​🧊​🟢​❌⭐​​-->
+                </table>
+            </article>
+        </section>
+        <section>
+            <h3>Ventas</h3>
+            <article>
+                <h4>Alta de ventas</h4>
+                <input type="button" value="Agregar artículo" id="botonAltaVen">
+            </article>
+            <article>
+                <h4>Datos de la venta a agregar</h4>
+                <h4>Venta</h4>
+                <form id="formArticulo">
+                    <strong id="idNum">Nro: 3</strong>
+                    <label for="codigoVen">Artículo</label>
+                    <select id="codigoVen">
+                        <option>A001</option>
+                        <option>A002</option>
+                        <option>A003</option>
+                    </select>
+                    <label for="infVen">Influencer</label>
+                    <select id="infVen">
+                        <option>Ana Pérez</option>
+                        <option>Juan Gómez</option>
+                        <option>Lucía Martínez</option>
+                    </select>
+                    <label for="idCantidad">Cantidad</label>
+                    <input type="text" id="idCantidad">
+                    <label for="medioVen">Medio</label>
+                    <select id="medioVen">
+                        <option>1-Instagram</option>
+                        <option>2-YouTube</option>
+                        <option>3-X</option>
+                        <option>4-TikTok</option>
+                        <option>5-Facebook</option>
+                        <option>6-Otras</option>
+                    </select>
+                    <input type="button" value="Cancelar" id="botonCanVen">
+                    <input type="button" value="Agregar" id="botonAgrVen">
+                </form>
+            </article>
+            <article>
+                <h4>Tabla de ventas (ordenada por número de venta)</h4>
+                <table>
+                    <tr>
+                        <th>Nro Venta</th>
+                        <th>Código de Articulo</th>
+                        <th>Nombre de influencer</th>
+                        <th>Cantidad</th>
+                        <th>Medio</th>
+                        <th>Acción</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>A001</td>
+                        <td>Ana Pérez</td>
+                        <td>3</td>
+                        <td>1 - Instagram</td>
+                        <td>
+                            <input type="button" value="❌">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>A002</td>
+                        <td>Juan Gómez</td>
+                        <td>1</td>
+                        <td>2 - YouTube</td>
+                        <td>
+                            <input type="button" value="❌">
+                        </td>
+                    </tr>
+                    <!--alt+24 es ↑, alt+25 es ↓, 🔥​🧊​🟢​❌⭐​​-->
+                </table>
+            </article>
+            <article>
+                <h4>Gráfico de burbujas</h4>
+            </article>
+        </section>
+        <footer>
+            <p>Autores:</p>
+            <a href="https://www.linkedin.com/in/dami%C3%A1n-torres-0a428836a/?skipRedirect=true" target="_blank">Damián Agustín Torres Aramburu - 371643</a>
+            <br>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">José Gabriel Erramuspe Rodriguez - 353422</a>
+        </footer>
+	</body>
 </html>
