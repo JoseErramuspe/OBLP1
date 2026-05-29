@@ -43,11 +43,6 @@ input[type="button"] {
     padding-left: 60px;
 }
 
-th > input[type="button"] {
-    padding-left: 45px;
-    padding-right: 45px;
-}
-
 input[type="text"], input[type="number"], input[type="email"] {
     margin-top: 2px;
     margin-bottom: 2px;
@@ -64,10 +59,21 @@ table {
     border: 1px solid #000000;
 }
 
-th, td {
+th {
+    text-align: center;
+    border: 1px solid #000000;
+    padding: 8px;
+}
+
+td {
     text-align: left;
     border: 1px solid #000000;
     padding: 8px;
+}
+
+th > input[type="button"] {
+    padding-left: 45px;
+    padding-right: 45px;
 }
 
 footer {
