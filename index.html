@@ -1,3 +1,5 @@
+<!-- José Gabriel Erramuspe Rodríguez - 353422 -->
+<!-- Damián Agustín Torres Aramburu - 371643 -->
 <!doctype html>
 <html lang="es">
 	<head>
@@ -21,16 +23,16 @@
                     <label for="idNombre">Nombre</label>
                     <input type="text" id="idNombre">
                     <label for="idMail">Mail</label>
-                    <input type="text" id="idMail">
+                    <input type="email" id="idMail">
                     <label for="idComision">% Comisión</label>
-                    <input type="text" id="idComision">
+                    <input type="number" max="100" id="idComision">
                     <input type="button" value="Cancelar" id="botonCanInf">
                     <input type="button" value="Agregar" id="botonAgrInf">
                 </form>
             </article>
             <article>
                 <h3>Tabla de influencers</h3>
-                <table border="2">
+                <table>
                     <tr>
                         <th>
                             <input type="button" value="Nombre ↑↓" id="botonListInf">
@@ -84,20 +86,20 @@
             <article>
                 <h4>Datos del artículo a agregar</h4>
                 <h4>Artículo</h4>
-                <form id="formVentas">
+                <form id="formArticulo">
                     <label for="idCodigo">Código</label>
                     <input type="text" id="idCodigo">
                     <label for="idDesc">Descripción</label>
                     <input type="text" id="idDesc">
                     <label for="idPrecio">Precio</label>
-                    <input type="text" id="idPrecio">
+                    <input type="number" id="idPrecio">
                     <input type="button" value="Cancelar" id="botonCanArt">
                     <input type="button" value="Agregar" id="botonAgrArt">
                 </form>
             </article>
             <article>
                 <h3>Tabla de artículos</h3>
-                <table border="2">
+                <table>
                     <tr>
                         <th>
                             <input type="button" value="Código ↑↓">
@@ -148,7 +150,7 @@
                         <option>Lucía Martínez</option>
                     </select>
                     <label for="idCantidad">Cantidad</label>
-                    <input type="text" id="idCantidad">
+                    <input type="number" id="idCantidad">
                     <label for="medioVen">Medio</label>
                     <select id="medioVen">
                         <option>1-Instagram</option>
@@ -164,7 +166,7 @@
             </article>
             <article>
                 <h3>Tabla de ventas (ordenada por número de venta)</h3>
-                <table border="2">
+                <table>
                     <tr>
                         <th>Nro Venta</th>
                         <th>Código de Articulo</th>
