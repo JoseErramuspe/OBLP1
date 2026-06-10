@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="css/estilos.css">
 		<title>Obl1-P1-371643-353422-05/2026</title>
 	</head>
 	<body>
@@ -21,11 +21,11 @@
                 <h4>Influencer</h4>
                 <form id="formInfluencer">
                     <label for="idNombre">Nombre</label>
-                    <input type="text" id="idNombre">
+                    <input type="text" id="idNombre" required>
                     <label for="idMail">Mail</label>
-                    <input type="email" id="idMail">
+                    <input type="email" id="idMail" required>
                     <label for="idComision">% Comisión</label>
-                    <input type="number" max="100" id="idComision">
+                    <input type="number" max="100" id="idComision" required>
                     <input type="button" value="Cancelar" id="botonCanInf">
                     <input type="button" value="Agregar" id="botonAgrInf">
                 </form>
@@ -88,11 +88,11 @@
                 <h4>Artículo</h4>
                 <form id="formArticulo">
                     <label for="idCodigo">Código</label>
-                    <input type="text" id="idCodigo">
+                    <input type="text" id="idCodigo" required>
                     <label for="idDesc">Descripción</label>
-                    <input type="text" id="idDesc">
+                    <input type="text" id="idDesc" required>
                     <label for="idPrecio">Precio</label>
-                    <input type="number" id="idPrecio">
+                    <input type="number" id="idPrecio" required>
                     <input type="button" value="Cancelar" id="botonCanArt">
                     <input type="button" value="Agregar" id="botonAgrArt">
                 </form>
