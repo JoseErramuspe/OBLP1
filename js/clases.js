@@ -4,6 +4,18 @@ class Sistema{
         this.listaArticulos=[];
         this.listaVentas=[];
     }
+    ordenarTablaInf(alfabetico){
+        if(alfabetico){
+            this.listaInfluencers.sort(function(a,b){
+                a.localeCompare(b);
+            })
+        }
+        else{
+            this.listaInfluencers.sort(function(a,b){
+                b.localeCompare(a);
+            })
+        }
+    }
 }
 
 class Influencer{
@@ -11,6 +23,9 @@ class Influencer{
         this.nombre=nombre;
         this.mail=mail;
         this.comision=comision;
+    }
+    toString(){
+        return this.nombre;
     }
 }
 
