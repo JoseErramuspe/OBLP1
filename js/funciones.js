@@ -42,8 +42,12 @@ function cargarTablaInf(){
         let celda3=fila.insertCell();
         celda3.innerHTML=influencer.comision;
         let celda4=fila.insertCell();
-        celda4.innerHTML=influencer.nombre;
-        //celda4 tiene que ser el botón de ventas
+        celda4.innerHTML=influencer.comision*ventas/100;
+        //ventas no es una variable definida, hay que cambiarlo
+        let celda5=fila.insertCell();
+        //Acá va una función que calcule qué etiquetas le corresponden al influencer
+        let celda6=fila.insertCell();
+        //Acá va un botón con las ventas del influencer
     }
 }
 
