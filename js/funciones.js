@@ -67,3 +67,13 @@ function cancelarInfluencer(){
     document.getElementById("idMail").value="";
     document.getElementById("idComision").value="";
 }
+
+function calcularComision(influCalc) {
+    let comision = 0;
+    for (let venta of sist.listaVentas) {
+        if (venta.influencer == influCalc) {
+            comision += ((venta.articulo.precio)*cantidad)*(comision/100);
+        }
+    }
+    return comision;
+}
