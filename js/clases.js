@@ -7,12 +7,12 @@ class Sistema{
     ordenarTablaInf(alfabetico){
         if(alfabetico){
             this.listaInfluencers.sort(function(a,b){
-                a.localeCompare(b);
+                return a.nombre.localeCompare(b.nombre);
             })
         }
         else{
             this.listaInfluencers.sort(function(a,b){
-                b.localeCompare(a);
+                return b.nombre.localeCompare(a.nombre);
             })
         }
     }
