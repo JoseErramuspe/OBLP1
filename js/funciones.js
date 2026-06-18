@@ -1,9 +1,10 @@
+let sist=new Sistema();
+let numero=0;
+let ordenAlfabeticoInf=true;
+
 window.addEventListener("load", inicio)
 
 function inicio(){
-    let sist=new Sistema();
-    let numero=0;
-    let ordenAlfabetico=true;
     document.getElementById("botonAltaInf").addEventListener("click", );
     document.getElementById("botonCanInf").addEventListener("click", cancelarInfluencer);
     document.getElementById("botonAgrInf").addEventListener("click", agregarInfluencer);
@@ -52,11 +53,11 @@ function cargarTablaInf(){
 }
 
 function cambiarOrdenInf(){
-    if(ordenAlfabetico){
-        ordenAlfabetico=false;
+    if(ordenAlfabeticoInf){
+        ordenAlfabeticoInf=false;
     }
     else{
-        ordenAlfabetico=true;
+        ordenAlfabeticoInf=true;
     }
     cargarTablaInf();
 }
