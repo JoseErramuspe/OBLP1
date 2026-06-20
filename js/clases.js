@@ -16,6 +16,18 @@ class Sistema{
             })
         }
     }
+    ordenarTablaArt(alfabetico){
+        if(alfabetico){
+            this.listaInfluencers.sort(function(a,b){
+                return a.codigo.localeCompare(b.codigo);
+            })
+        }
+        else{
+            this.listaInfluencers.sort(function(a,b){
+                return b.codigo.localeCompare(a.codigo);
+            })
+        }
+    }
 }
 
 class Influencer{
@@ -23,9 +35,6 @@ class Influencer{
         this.nombre=nombre;
         this.mail=mail;
         this.comision=comision;
-    }
-    toString(){
-        return this.nombre;
     }
 }
 
@@ -44,5 +53,8 @@ class Venta{
         this.influencer=influencer;
         this.cantidad=cantidad;
         this.medio=medio;
+    }
+    toString(){
+        return "Nro "+numero+"→"+articulo+"→"+" $"+this.articulo.precio+"c/u Total $"+(this.articulo.precio*this.cantidad)+"→"+" Comision: $"+(this.influencer.comision*this.articulo.precio*this.cantidad/100);
     }
 }
