@@ -34,7 +34,7 @@ function agregarInfluencer(){
 function cargarTablaInf(){
     let tabla=document.getElementById("tablaInf");
     tabla.innerHTML="";
-    sist.ordenarTablaInf(ordenAlfabetico);
+    sist.ordenarTablaInf(ordenAlfabeticoInf);
     for (let influencer of sist.listaInfluencers){
         let fila=tabla.insertRow();
         let celda1=fila.insertCell();
