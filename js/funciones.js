@@ -1,6 +1,7 @@
 let sist=new Sistema();
 let numero=0;
 let ordenAlfabeticoInf=true;
+let ordenAlfabeticoArt=true;
 
 window.addEventListener("load", inicio)
 
@@ -43,12 +44,13 @@ function cargarTablaInf(){
         let celda3=fila.insertCell();
         celda3.innerHTML=influencer.comision;
         let celda4=fila.insertCell();
-        celda4.innerHTML=influencer.comision*ventas/100;
-        //ventas no es una variable definida, hay que cambiarlo
+        celda4.innerHTML=calcularComision(influencer);
         let celda5=fila.insertCell();
         //Acá va una función que calcule qué etiquetas le corresponden al influencer
         let celda6=fila.insertCell();
-        //Acá va un botón con las ventas del influencer
+        celda6.innerHTML="<input type='button' id='idBoton" + influencer.nombre +"'>Ventas</input>";
+        //Falta agregar un addEventListener para que cada botón llame a la función con su respectivo influencer como parámetro
+        //No sé si se hace poniendo un addEventListener dentro del for o de otra manera
     }
 }
 
@@ -73,8 +75,21 @@ function calcularComision(influCalc) {
     let comision = 0;
     for (let venta of sist.listaVentas) {
         if (venta.influencer == influCalc) {
-            comision += ((venta.articulo.precio)*cantidad)*(comision/100);
+            comision += ((venta.articulo.precio)*venta.cantidad)*(venta.influencer.comision/100);
         }
     }
     return comision;
+}
+
+function botonVentas(influencer){
+    let ventasInfluencer="Ventas: \n";
+    for (let venta of sist.listaVentas) {
+        if (venta.influencer == influencer) {
+            ventasInfluencer+=venta+"\n";
+        }
+    }
+    if (ventasInfluencer=="Ventas: \n"){
+        ventasInfluencer+="Sin datos"
+    }
+    alert(ventasInfluencer);
 }
