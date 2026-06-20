@@ -48,7 +48,7 @@ function cargarTablaInf(){
         let celda5=fila.insertCell();
         //Acá va una función que calcule qué etiquetas le corresponden al influencer
         let celda6=fila.insertCell();
-        celda6.innerHTML="<input type='button' id='idBoton" + influencer.nombre +"' value:'Ventas'";
+        celda6.innerHTML="<input type='button' id='idBoton" + influencer.nombre +"' value:'Ventas'>";
         //Falta agregar un addEventListener para que cada botón llame a la función con su respectivo influencer como parámetro
         //No sé si se hace poniendo un addEventListener dentro del for o de otra manera
     }
