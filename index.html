@@ -27,7 +27,7 @@
                         <label for="idMail">Mail</label>
                         <input type="email" id="idMail" required>
                         <label for="idComision">% Comisión</label>
-                        <input type="number" max="100" id="idComision" required>
+                        <input type="number" min="1" max="100" id="idComision" required>
                         <button command="close" commandfor="dialogFormInfluencer" id="botonCanInf">Cancelar</button>
                         <input type="button" value="Agregar" id="botonAgrInf">
                     </form>
@@ -94,7 +94,7 @@
                         <label for="idDesc">Descripción</label>
                         <input type="text" id="idDesc" required>
                         <label for="idPrecio">Precio</label>
-                        <input type="number" id="idPrecio" required>
+                        <input type="number" min="1" id="idPrecio" required>
                         <button command="close" commandfor="dialogArticulo" id="botonCanArt">Cancelar</button>
                         <input type="button" value="Agregar" id="botonAgrArt">
                     </form>
@@ -132,43 +132,43 @@
             <h2>Ventas</h2>
             <article>
                 <h3>Alta de ventas</h3>
-                <input type="button" value="Agregar artículo" id="botonAltaVen">
+                <button command="show-modal" commandfor="dialogVenta" id="botonAltaVen">Agregar venta</button>
             </article>
-            <article>
+            <dialog id="dialogVenta">
                 <h3>Datos de la venta a agregar</h3>
                 <h4>Venta</h4>
-                <form id="formVentas">
-                    <strong id="idNum">Nro: 3</strong>
+                <form id="formVenta">
+                    <strong id="idNum">Nro: </strong>
                     <label for="codigoVen">Artículo</label>
                     <select id="codigoVen">
-                        <option>A001</option>
+                        <!--<option>A001</option>
                         <option>A002</option>
-                        <option>A003</option>
+                        <option>A003</option>-->
                     </select>
                     <label for="infVen">Influencer</label>
                     <select id="infVen">
-                        <option>Ana Pérez</option>
+                        <!--<option>Ana Pérez</option>
                         <option>Juan Gómez</option>
-                        <option>Lucía Martínez</option>
+                        <option>Lucía Martínez</option>-->
                     </select>
                     <label for="idCantidad">Cantidad</label>
-                    <input type="number" id="idCantidad">
+                    <input type="number" min="1" id="idCantidad" required>
                     <label for="medioVen">Medio</label>
                     <select id="medioVen">
-                        <option>1-Instagram</option>
-                        <option>2-YouTube</option>
-                        <option>3-X</option>
-                        <option>4-TikTok</option>
-                        <option>5-Facebook</option>
-                        <option>6-Otras</option>
+                        <option value="1-Instagram">1-Instagram</option>
+                        <option value="2-YouTube">2-YouTube</option>
+                        <option value="3-X">3-X</option>
+                        <option value="4-TikTok">4-TikTok</option>
+                        <option value="5-Facebook">5-Facebook</option>
+                        <option value="6-Otras">6-Otras</option>
                     </select>
-                    <input type="button" value="Cancelar" id="botonCanVen">
+                    <button command="close" commandfor="dialogArticulo" id="botonCanVen">Cancelar</button>
                     <input type="button" value="Agregar" id="botonAgrVen">
                 </form>
-            </article>
+            </dialog>
             <article>
                 <h3>Tabla de ventas (ordenada por número de venta)</h3>
-                <table>
+                <table id="tablaVen">
                     <tr>
                         <th>Nro Venta</th>
                         <th>Código de Articulo</th>
@@ -177,6 +177,7 @@
                         <th>Medio</th>
                         <th>Acción</th>
                     </tr>
+                    <!--
                     <tr>
                         <td>1</td>
                         <td>A001</td>
@@ -197,6 +198,7 @@
                             <input type="button" value="❌">
                         </td>
                     </tr>
+                -->
                 </table>
             </article>
             <article>
@@ -207,6 +209,7 @@
             <p>Autores:</p>
             <a href="https://www.linkedin.com/in/dami%C3%A1n-torres-0a428836a/?skipRedirect=true" target="_blank">Damián Agustín Torres Aramburu - 371643</a>
             <br>
+			<!--Capaz que ahora habría que sacar el rickroll, no? Ya rickrolleamos a toda la clase, no hace falta más jajajajajaj-->
             <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">José Gabriel Erramuspe Rodriguez - 353422</a>
         </footer>
 	</body>
