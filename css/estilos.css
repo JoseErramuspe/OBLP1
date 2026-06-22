@@ -26,7 +26,7 @@ article {
     flex-direction: column;
 }
 
-input[type="button"] {
+input[type="button"], button {
     background-color: #0d94bd;
     color: #ffffff;
     border: none;
