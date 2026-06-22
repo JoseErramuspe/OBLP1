@@ -18,12 +18,12 @@ class Sistema{
     }
     ordenarTablaArt(alfabetico){
         if(alfabetico){
-            this.listaInfluencers.sort(function(a,b){
+            this.listaArticulos.sort(function(a,b){
                 return a.codigo.localeCompare(b.codigo);
             })
         }
         else{
-            this.listaInfluencers.sort(function(a,b){
+            this.listaArticulos.sort(function(a,b){
                 return b.codigo.localeCompare(a.codigo);
             })
         }
