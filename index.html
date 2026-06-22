@@ -16,22 +16,22 @@
             <h2>Manejo de Influencers</h2>
             <article>
                 <h3>Alta de influencers</h3>
-                <input type="button" value="Agregar influencer" id="botonAltaInf">
+                <button command="show-modal" commandfor="dialogFormInfluencer" id="botonAltaInf">Agregar influencer</button>
             </article>
-            <article>
-                <h3>Datos del influencer a agregar</h3>
-                <h4>Influencer</h4>
-                <form id="formInfluencer">
-                    <label for="idNombre">Nombre</label>
-                    <input type="text" id="idNombre" required>
-                    <label for="idMail">Mail</label>
-                    <input type="email" id="idMail" required>
-                    <label for="idComision">% Comisión</label>
-                    <input type="number" max="100" id="idComision" required>
-                    <input type="button" value="Cancelar" id="botonCanInf">
-                    <input type="button" value="Agregar" id="botonAgrInf">
-                </form>
-            </article>
+                <dialog id="dialogFormInfluencer">
+                    <h3>Datos del influencer a agregar</h3>
+                    <h4>Influencer</h4>
+                    <form id="formInfluencer" method="dialog">
+                        <label for="idNombre">Nombre</label>
+                        <input type="text" id="idNombre" required>
+                        <label for="idMail">Mail</label>
+                        <input type="email" id="idMail" required>
+                        <label for="idComision">% Comisión</label>
+                        <input type="number" max="100" id="idComision" required>
+                        <button command="close" commandfor="dialogFormInfluencer" id="botonCanInf">Cancelar</button>
+                        <input type="button" value="Agregar" id="botonAgrInf">
+                    </form>
+                </dialog>
             <article>
                 <h3>Tabla de influencers</h3>
                 <table id="tablaInf">
@@ -43,9 +43,9 @@
                         <th>% Comisión</th>
                         <th>Total a cobrar</th>
                         <th>Etiquetas</th>
-                        <th>Detalle</th>
+                        <th>Detalles</th>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Ana Pérez</td>
                         <td>ana.perez@email.com</td>
                         <td>20%</td>
@@ -74,7 +74,7 @@
                         <td>
                             <input type="button" value="Ventas">
                         </td>
-                    </tr>
+                    </tr> -->
                 </table>
             <p>Información: 🔥Top comisión (cobra más $) 🧊Cero ventas 🟢Venta más cara (mayor monto en una sola venta)</p>
             </article>
@@ -83,25 +83,25 @@
             <h2>Manejo de Artículos</h2>
             <article>
                 <h3>Alta de artículo</h3>
-                <input type="button" value="Agregar artículo" id="botonAltaArt">
+                <button command="show-modal" commandfor="dialogArticulo" id="botonAltaArt">Agregar artículo</button>
             </article>
-            <article>
-                <h3>Datos del artículo a agregar</h3>
-                <h4>Artículo</h4>
-                <form id="formArticulo">
-                    <label for="idCodigo">Código</label>
-                    <input type="text" id="idCodigo" required>
-                    <label for="idDesc">Descripción</label>
-                    <input type="text" id="idDesc" required>
-                    <label for="idPrecio">Precio</label>
-                    <input type="number" id="idPrecio" required>
-                    <input type="button" value="Cancelar" id="botonCanArt">
-                    <input type="button" value="Agregar" id="botonAgrArt">
-                </form>
-            </article>
+                <dialog id="dialogArticulo">
+                    <h3>Datos del artículo a agregar</h3>
+                    <h4>Artículo</h4>
+                    <form id="formArticulo">
+                        <label for="idCodigo">Código</label>
+                        <input type="text" id="idCodigo" required>
+                        <label for="idDesc">Descripción</label>
+                        <input type="text" id="idDesc" required>
+                        <label for="idPrecio">Precio</label>
+                        <input type="number" id="idPrecio" required>
+                        <button command="close" commandfor="dialogArticulo" id="botonCanArt">Cancelar</button>
+                        <input type="button" value="Agregar" id="botonAgrArt">
+                    </form>
+                </dialog>
             <article>
                 <h3>Tabla de artículos</h3>
-                <table>
+                <table id="tablaArt">
                     <tr>
                         <th>
                             <input type="button" value="Código ↑↓" id="botonListArt">
@@ -109,8 +109,8 @@
                         <th>Descripción</th>
                         <th>Precio</th>
                     </tr>
-                    <tr>
-                        <td>A001⭐​</td>
+                    <!-- <tr>
+                        <td>A001⭐</td>
                         <td>Remera algodón básica</td>
                         <td>$ 1000</td>
                     </tr>
@@ -123,7 +123,7 @@
                         <td>A003</td>
                         <td>Gorra ajustable</td>
                         <td>$ 500</td>
-                    </tr>
+                    </tr> -->
                 </table>
 				<p>Información: ⭐Artículo más vendido (mayor cantidad de unidades vendidas)</p>
             </article>
