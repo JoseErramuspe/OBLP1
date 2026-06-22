@@ -5,21 +5,21 @@ let ordenAlfabeticoArt=true;
 
 window.addEventListener("load", inicio)
 
-function inicio(){
-    document.getElementById("botonAltaInf").addEventListener("click", );
+function inicio() {
+//    document.getElementById("botonAltaInf").addEventListener("click", );
     document.getElementById("botonCanInf").addEventListener("click", cancelarInfluencer);
     document.getElementById("botonAgrInf").addEventListener("click", agregarInfluencer);
     document.getElementById("botonListInf").addEventListener("click", cambiarOrdenInf);
-    document.getElementById("botonAltaArt").addEventListener("click", );
-    document.getElementById("botonCanArt").addEventListener("click", );
-    document.getElementById("botonAgrArt").addEventListener("click", );
-    document.getElementById("botonListArt").addEventListener("click", );
-    document.getElementById("botonAltaVen").addEventListener("click", );
-    document.getElementById("botonCanVen").addEventListener("click", );
-    document.getElementById("botonAgrVen").addEventListener("click", );
+//    document.getElementById("botonAltaArt").addEventListener("click", );
+    document.getElementById("botonCanArt").addEventListener("click", cancelarArticulo);
+    document.getElementById("botonAgrArt").addEventListener("click", agregarArticulo);
+    document.getElementById("botonListArt").addEventListener("click", cambiarOrdenArt);
+//    document.getElementById("botonAltaVen").addEventListener("click", );
+//    document.getElementById("botonCanVen").addEventListener("click", );
+//    document.getElementById("botonAgrVen").addEventListener("click", );
 }
 
-function agregarInfluencer(){
+function agregarInfluencer() {
     if (document.getElementById("formInfluencer").reportValidity()){
         let nombre=document.getElementById("idNombre").value;
         let mail=document.getElementById("idMail").value;
@@ -31,44 +31,16 @@ function agregarInfluencer(){
     }
 }
 
-function cargarTablaInf(){
-    let tabla=document.getElementById("tablaInf");
-    tabla.innerHTML="";
-    sist.ordenarTablaInf(ordenAlfabeticoInf);
-    for (let influencer of sist.listaInfluencers){
-        let fila=tabla.insertRow();
-        let celda1=fila.insertCell();
-        celda1.innerHTML=influencer.nombre;
-        let celda2=fila.insertCell();
-        celda2.innerHTML=influencer.mail;
-        let celda3=fila.insertCell();
-        celda3.innerHTML=influencer.comision;
-        let celda4=fila.insertCell();
-        celda4.innerHTML=calcularComision(influencer);
-        let celda5=fila.insertCell();
-        //Acá va una función que calcule qué etiquetas le corresponden al influencer
-        let celda6=fila.insertCell();
-        celda6.innerHTML="<input type='button' id='idBoton" + influencer.nombre +"' value='Ventas'>";
-        //Falta agregar un addEventListener para que cada botón llame a la función con su respectivo influencer como parámetro
-        //No sé si se hace poniendo un addEventListener dentro del for o de otra manera
-    }
-}
-
-function cambiarOrdenInf(){
-    if(ordenAlfabeticoInf){
-        ordenAlfabeticoInf=false;
-    }
-    else{
-        ordenAlfabeticoInf=true;
-    }
-    cargarTablaInf();
-}
-
-
-function cancelarInfluencer(){
+function cancelarInfluencer() {
     document.getElementById("idNombre").value="";
     document.getElementById("idMail").value="";
     document.getElementById("idComision").value="";
+    document.getElementById("dialogFormInfluencer").close();
+}
+
+function cambiarOrdenInf(){
+    ordenAlfabeticoInf=!ordenAlfabeticoInf;
+    cargarTablaInf();
 }
 
 function calcularComision(influCalc) {
@@ -81,7 +53,64 @@ function calcularComision(influCalc) {
     return comision;
 }
 
-function botonVentas(influencer){
+function asignarEtiquetas(influAsign) {
+    let topCom = false;
+    let noVentas = false;
+    let ventaMasCara = false;
+    // Top comision
+    let topComInflu = [];
+    let topComVenta = 0;
+    for (influencer of sist.listaInfluencers) {
+        if (calcularComision(influencer) > topComVenta) {
+            topComVenta = calcularComision(influencer);
+            topComInflu = [];
+            topComInflu.push(influencer);
+        } else if (calcularComision(influencer) == topComVenta) {
+            topComInflu.push(influencer);
+        }
+    }
+    if (topComInflu.includes(influAsign)) {
+        topCom = true;
+    }
+    // noVentas
+    let ventasInflu = [];
+    for (let venta of sist.listaVentas) {
+        if (venta.influencer == influAsign) {
+            ventasInflu.push(venta);
+        }
+    }
+    if (ventasInflu.length == 0) {
+        noVentas = true;
+    }
+    // ventaCara
+    let ventaCara = [];
+    let ventaCaraPrecio = 0;
+    for (let venta of sist.listaVentas) {
+        if (venta.articulo.precio*venta.cantidad > ventaCaraPrecio) {
+            ventaCaraPrecio = venta.articulo.precio*venta.cantidad;
+            ventaCara = [];
+            ventaCara.push(venta.Influencer);
+        } else if (venta.articulo.precio*venta.cantidad == ventaCaraPrecio) {
+            ventaCara.push(venta.Influencer);
+        }
+    }
+    if (ventaCara.includes(influAsign)) {
+        ventaMasCara = true;
+    }
+    let etiquetas = "";
+    if (topCom && !noVentas) {
+        etiquetas += "🔥 "
+    }
+    if (noVentas) {
+        etiquetas += "🧊"
+    }
+    if (ventaCara && !noVentas) {
+        etiquetas += "🟢"
+    }
+    return etiquetas;
+}
+
+function botonVentas(influencer) {
     let ventasInfluencer="Ventas: \n";
     for (let venta of sist.listaVentas) {
         if (venta.influencer == influencer) {
@@ -92,4 +121,129 @@ function botonVentas(influencer){
         ventasInfluencer+="Sin datos"
     }
     alert(ventasInfluencer);
+}
+
+function cargarTablaInf() {
+    sist.ordenarTablaInf(ordenAlfabeticoInf);
+    let tabla=document.getElementById("tablaInf");
+    tabla.innerHTML="";
+    let headerRow = tabla.insertRow();
+    let th1 = document.createElement("th");
+    let botonOrden = document.createElement("input");
+    botonOrden.type = "button";
+    botonOrden.value = "Nombre ↑↓";
+    botonOrden.id = "botonListInf";
+    botonOrden.addEventListener("click", cambiarOrdenInf);
+    th1.appendChild(botonOrden);
+    headerRow.appendChild(th1);
+    let th2 = document.createElement("th");
+    th2.innerHTML = "Email";
+    headerRow.appendChild(th2);
+    let th3 = document.createElement("th");
+    th3.innerHTML = "% Comisión";
+    headerRow.appendChild(th3);
+    let th4 = document.createElement("th");
+    th4.innerHTML = "Total a cobrar";
+    headerRow.appendChild(th4);
+    let th5 = document.createElement("th");
+    th5.innerHTML = "Etiquetas";
+    headerRow.appendChild(th5);
+    let th6 = document.createElement("th");
+    th6.innerHTML = "Detalles";
+    headerRow.appendChild(th6);
+    for (let influencer of sist.listaInfluencers){
+        let fila=tabla.insertRow();
+        let celda1=fila.insertCell();
+        celda1.innerHTML=influencer.nombre;
+        let celda2=fila.insertCell();
+        celda2.innerHTML=influencer.mail;
+        let celda3=fila.insertCell();
+        celda3.innerHTML=influencer.comision + "%";
+        let celda4=fila.insertCell();
+        celda4.innerHTML="$ " + calcularComision(influencer);
+        let celda5=fila.insertCell();
+        celda5.innerHTML=asignarEtiquetas(influencer);
+        let celda6=fila.insertCell();
+        let botonDetalles = document.createElement("input");
+        botonDetalles.type = "button";
+        botonDetalles.id = "ventasDetalleBoton" + influencer.nombre;
+        botonDetalles.value = "Ventas"
+        botonDetalles.addEventListener("click", () => botonVentas(influencer));
+        celda6.appendChild(botonDetalles);
+    }
+}
+
+function agregarArticulo() {
+    if (document.getElementById("formArticulo").reportValidity()){
+        let codigo=document.getElementById("idCodigo").value;
+        let descripcion=document.getElementById("idDesc").value;
+        let precio=document.getElementById("idPrecio").value;
+        let nuevoArt=new Articulo(codigo, descripcion, precio);
+        sist.listaArticulos.push(nuevoArt);
+        cargarTablaArt();
+        cancelarArticulo();
+    }
+}
+
+function cancelarArticulo() {
+    document.getElementById("idCodigo").value="";
+    document.getElementById("idDesc").value="";
+    document.getElementById("idPrecio").value="";
+    document.getElementById("dialogArticulo").close();
+}
+
+function cambiarOrdenArt(){
+    ordenAlfabeticoArt=!ordenAlfabeticoArt;
+    cargarTablaArt();
+}
+
+function artMasVendido(artAsign) {
+    let artVentas = [];
+    let masVendidos = [];
+    let cantVentas = 0;
+    for (let venta of sist.listaVentas) {
+        artVentas[venta.articulo.codigo] += artVentas[venta.articulo.cantidad];
+        if (artVentas[venta.articulo.codigo] > cantVentas) {
+            cantVentas = artVentas[venta.articulo.codigo];
+            masVendidos = [];
+            masVendidos.push(venta.articulo);
+        } else if (artVentas[venta.articulo.codigo] == cantVentas) {
+            masVendidos.push(venta.articulo);
+        }
+    }
+    let etiquetas = "";
+    if (masVendidos.includes(artAsign)) {
+        etiquetas += "⭐";
+    }
+    return etiquetas;
+}
+
+function cargarTablaArt() {
+    sist.ordenarTablaArt(ordenAlfabeticoArt);
+    let tabla=document.getElementById("tablaArt");
+    tabla.innerHTML="";
+    let headerRow = tabla.insertRow();
+    let th1 = document.createElement("th");
+    let botonOrden = document.createElement("input");
+    botonOrden.type = "button";
+    botonOrden.value = "Código ↑↓";
+    botonOrden.id = "botonListArt";
+    botonOrden.addEventListener("click", () => cambiarOrdenArt());
+    th1.appendChild(botonOrden);
+    headerRow.appendChild(th1);
+    let th2 = document.createElement("th");
+    th2.innerHTML = "Descripción";
+    headerRow.appendChild(th2);
+    let th3 = document.createElement("th");
+    th3.innerHTML = "Precio";
+    headerRow.appendChild(th3);
+    for (let articulo of sist.listaArticulos){
+        let fila=tabla.insertRow();
+        let celda1=fila.insertCell();
+        celda1.innerHTML=articulo.codigo + artMasVendido(articulo);
+        let celda2=fila.insertCell();
+        celda2.innerHTML=articulo.descripcion;
+        let celda3=fila.insertCell();
+        celda3.innerHTML="$ " + articulo.precio;
+    }
 }
