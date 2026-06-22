@@ -2,21 +2,21 @@ let sist=new Sistema();
 let numero=0;
 let ordenAlfabeticoInf=true;
 let ordenAlfabeticoArt=true;
+let articulosCombo=[];
+let influencersCombo=[];
 
 window.addEventListener("load", inicio)
 
 function inicio() {
-//    document.getElementById("botonAltaInf").addEventListener("click", );
     document.getElementById("botonCanInf").addEventListener("click", cancelarInfluencer);
     document.getElementById("botonAgrInf").addEventListener("click", agregarInfluencer);
     document.getElementById("botonListInf").addEventListener("click", cambiarOrdenInf);
-//    document.getElementById("botonAltaArt").addEventListener("click", );
     document.getElementById("botonCanArt").addEventListener("click", cancelarArticulo);
     document.getElementById("botonAgrArt").addEventListener("click", agregarArticulo);
     document.getElementById("botonListArt").addEventListener("click", cambiarOrdenArt);
-//    document.getElementById("botonAltaVen").addEventListener("click", );
-//    document.getElementById("botonCanVen").addEventListener("click", );
-//    document.getElementById("botonAgrVen").addEventListener("click", );
+    document.getElementById("botonAltaVen").addEventListener("click", altaVenta);
+    document.getElementById("botonCanVen").addEventListener("click", cancelarVenta);
+    document.getElementById("botonAgrVen").addEventListener("click", agregarVenta);
 }
 
 function agregarInfluencer() {
@@ -27,6 +27,7 @@ function agregarInfluencer() {
         let nuevoInf=new Influencer(nombre, mail, comision);
         sist.listaInfluencers.push(nuevoInf);
         cargarTablaInf();
+        cargarComboInf();
         cancelarInfluencer();
     }
 }
@@ -181,6 +182,7 @@ function agregarArticulo() {
         let nuevoArt=new Articulo(codigo, descripcion, precio);
         sist.listaArticulos.push(nuevoArt);
         cargarTablaArt();
+        cargarComboArt();
         cancelarArticulo();
     }
 }
@@ -202,6 +204,7 @@ function artMasVendido(artAsign) {
     let masVendidos = [];
     let cantVentas = 0;
     for (let venta of sist.listaVentas) {
+        // venta.articulo.codigo no es un número, es un string, igual no probé si estaba bien o mal, pero se me hace raro
         artVentas[venta.articulo.codigo] += artVentas[venta.articulo.cantidad];
         if (artVentas[venta.articulo.codigo] > cantVentas) {
             cantVentas = artVentas[venta.articulo.codigo];
@@ -246,4 +249,119 @@ function cargarTablaArt() {
         let celda3=fila.insertCell();
         celda3.innerHTML="$ " + articulo.precio;
     }
+}
+
+function altaVenta(){
+    if(sist.listaInfluencers.length==0){
+        event.preventDefault();
+        alert("No se pueden hacer ventas porque no hay influencers registrados");
+    }
+    else if(sist.listaArticulos.length==0){
+        event.preventDefault();
+        alert("No se pueden hacer ventas porque no hay artículos registrados");
+    }
+    else{
+        numero++;
+        document.getElementById("idNum").innerHTML = "Nro: " + numero;
+    }
+}
+
+function cancelarVenta(){
+    document.getElementById("codigoVen").selectedIndex=0;
+    document.getElementById("infVen").selectedIndex=0;
+    document.getElementById("idCantidad").value="";
+    document.getElementById("medioVen").selectedIndex=0;
+    document.getElementById("dialogVenta").close();
+}
+
+function agregarVenta() {
+if (document.getElementById("formVenta").reportValidity()){
+        let articulo=articulosCombo[document.getElementById("codigoVen").selectedIndex];
+        let influencer=influencersCombo[document.getElementById("infVen").selectedIndex];
+        let cantidad=document.getElementById("idCantidad").value;
+        let medio=document.getElementById("medioVen").value;
+        let nuevaVen=new Venta(numero, articulo, influencer, cantidad, medio);
+        sist.listaVentas.push(nuevaVen);
+        cargarTablaVen();
+        cancelarVenta();
+    }
+}
+
+function cargarComboArt(){
+    let lista=document.getElementById("codigoVen");
+    lista.innerHTML="";
+    let articulosCombo=sist.listaArticulos;
+    articulosCombo.sort(function(a,b){
+        return a.codigo.localeCompare(b.codigo);
+    })
+    for (let i=0; i<articulosCombo.length; i++){
+        let nodo=document.createElement("option");
+        nodo.innerHTML=articulosCombo[i].codigo;
+        lista.appendChild(nodo);
+    }
+}
+
+function cargarComboInf(){
+    let lista=document.getElementById("infVen");
+    lista.innerHTML="";
+    let influencersCombo=sist.listaInfluencers;
+    influencersCombo.sort(function(a,b){
+        return a.nombre.localeCompare(b.nombre);
+    })
+    for (let i=0; i<influencersCombo.length; i++){
+        let nodo=document.createElement("option");
+        nodo.innerHTML=influencersCombo[i].nombre;
+        lista.appendChild(nodo);
+    }
+}
+
+// Esta función me da errores, no pone los datos en la tabla y la consola da este error "Uncaught TypeError: Cannot read properties of undefined (reading 'codigo')" en la línea 346 
+function cargarTablaVen(){
+    let tabla=document.getElementById("tablaVen");
+    tabla.innerHTML="";
+    let headerRow = tabla.insertRow();
+    let th1 = document.createElement("th");
+    th1.innerHTML="Nro Venta";
+    headerRow.appendChild(th1);
+    let th2 = document.createElement("th");
+    th2.innerHTML = "Código de Artículo";
+    headerRow.appendChild(th2);
+    let th3 = document.createElement("th");
+    th3.innerHTML = "Nombre de influencer";
+    headerRow.appendChild(th3);
+    let th4 = document.createElement("th");
+    th4.innerHTML = "Cantidad";
+    headerRow.appendChild(th4);
+    let th5 = document.createElement("th");
+    th5.innerHTML = "Medio";
+    headerRow.appendChild(th5);
+    let th6 = document.createElement("th");
+    th6.innerHTML = "Acción";
+    headerRow.appendChild(th6);
+    for (let venta of sist.listaVentas){
+        let fila=tabla.insertRow();
+        let celda1=fila.insertCell();
+        celda1.innerHTML=venta.numero;
+        let celda2=fila.insertCell();
+        celda2.innerHTML=venta.articulo.codigo;
+        let celda3=fila.insertCell();
+        celda3.innerHTMLventa.influencer.nombre;
+        let celda4=fila.insertCell();
+        celda4.innerHTML=venta.cantidad;
+        let celda5=fila.insertCell();
+        celda5.innerHTML=venta.medio;
+        let celda6=fila.insertCell();
+        let botonBorrar = document.createElement("input");
+        botonBorrar.type = "button";
+        botonBorrar.id = "botonBorrarVenta" + venta.numero;
+        botonBorrar.value = "❌"
+        botonBorrar.addEventListener("click", () => borrarVenta(venta));
+        celda6.appendChild(botonBorrar);
+    }
+}
+
+function borrarVenta(venta){
+    let lugarABorrar=sist.listaVentas.indexOf(venta);
+    sist.listaVentas.splice(lugarABorrar, 1);
+    cargarTablaVen();
 }
