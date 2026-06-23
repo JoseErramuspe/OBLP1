@@ -275,13 +275,18 @@ function cancelarVenta(){
 }
 
 function agregarVenta() {
-if (document.getElementById("formVenta").reportValidity()){
-        let articulo=articulosCombo[document.getElementById("codigoVen").selectedIndex];
-        let influencer=influencersCombo[document.getElementById("infVen").selectedIndex];
+    if (document.getElementById("formVenta").reportValidity()){
+        //let articulo=articulosCombo[document.getElementById("codigoVen").selectedIndex];
+        //let influencer=influencersCombo[document.getElementById("infVen").selectedIndex];
+        let articulo=sist.listaArticulos[document.getElementById("codigoVen").selectedIndex];
+        let influencer=sist.listaInfluencers[document.getElementById("infVen").selectedIndex];
         let cantidad=document.getElementById("idCantidad").value;
         let medio=document.getElementById("medioVen").value;
         let nuevaVen=new Venta(numero, articulo, influencer, cantidad, medio);
         sist.listaVentas.push(nuevaVen);
+        console.log(nuevaVen);
+        console.log(articulosCombo);
+        console.log(influencersCombo);
         cargarTablaVen();
         cancelarVenta();
     }
@@ -345,7 +350,7 @@ function cargarTablaVen(){
         let celda2=fila.insertCell();
         celda2.innerHTML=venta.articulo.codigo;
         let celda3=fila.insertCell();
-        celda3.innerHTMLventa.influencer.nombre;
+        celda3.innerHTML=venta.influencer.nombre;
         let celda4=fila.insertCell();
         celda4.innerHTML=venta.cantidad;
         let celda5=fila.insertCell();
