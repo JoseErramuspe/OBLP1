@@ -272,6 +272,7 @@ function cancelarVenta(){
     document.getElementById("idCantidad").value="";
     document.getElementById("medioVen").selectedIndex=0;
     document.getElementById("dialogVenta").close();
+    numero--;
 }
 
 function agregarVenta() {
