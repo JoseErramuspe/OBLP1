@@ -55,6 +55,6 @@ class Venta{
         this.medio=medio;
     }
     toString(){
-        return "Nro "+numero+"→"+articulo+"→"+" $"+this.articulo.precio+"c/u Total $"+(this.articulo.precio*this.cantidad)+"→"+" Comision: $"+(this.influencer.comision*this.articulo.precio*this.cantidad/100);
+        return "Nro "+this.numero+"→"+this.articulo.codigo+"→"+" $"+this.articulo.precio+"c/u Total $"+(this.articulo.precio*this.cantidad)+"→"+" Comision: $"+(this.influencer.comision*this.articulo.precio*this.cantidad/100);
     }
 }
