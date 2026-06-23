@@ -28,6 +28,15 @@ class Sistema{
             })
         }
     }
+    contarVentas(articulo){
+        let ventasArt=0;
+        for(let venta of this.listaVentas){
+            if(venta.articulo == articulo){
+                ventasArt+=venta.cantidad;
+            }
+        }
+        return ventasArt;
+    }
 }
 
 class Influencer{
