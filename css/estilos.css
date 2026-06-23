@@ -26,6 +26,10 @@ article {
     flex-direction: column;
 }
 
+dialog {
+    min-width: 1125px;
+}
+
 input[type="button"], button {
     background-color: #0d94bd;
     color: #ffffff;
