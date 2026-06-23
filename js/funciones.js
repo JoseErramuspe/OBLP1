@@ -2,8 +2,6 @@ let sist=new Sistema();
 let numero=0;
 let ordenAlfabeticoInf=true;
 let ordenAlfabeticoArt=true;
-let articulosCombo=[];
-let influencersCombo=[];
 
 window.addEventListener("load", inicio)
 
@@ -26,9 +24,11 @@ function agregarInfluencer() {
         let comision=document.getElementById("idComision").value;
         let nuevoInf=new Influencer(nombre, mail, comision);
         sist.listaInfluencers.push(nuevoInf);
+        document.getElementById("idNombre").value="";
+        document.getElementById("idMail").value="";
+        document.getElementById("idComision").value="";
         cargarTablaInf();
-        cargarComboInf();
-        cancelarInfluencer();
+        cargarSelectInf();
     }
 }
 
@@ -181,9 +181,11 @@ function agregarArticulo() {
         let precio=document.getElementById("idPrecio").value;
         let nuevoArt=new Articulo(codigo, descripcion, precio);
         sist.listaArticulos.push(nuevoArt);
+        document.getElementById("idCodigo").value="";
+        document.getElementById("idDesc").value="";
+        document.getElementById("idPrecio").value="";
         cargarTablaArt();
-        cargarComboArt();
-        cancelarArticulo();
+        cargarSelectArt();
     }
 }
 
@@ -261,8 +263,7 @@ function altaVenta(){
         alert("No se pueden hacer ventas porque no hay artículos registrados");
     }
     else{
-        numero++;
-        document.getElementById("idNum").innerHTML = "Nro: " + numero;
+        document.getElementById("idNum").innerHTML = "Nro: " + (numero+1);
     }
 }
 
@@ -272,51 +273,45 @@ function cancelarVenta(){
     document.getElementById("idCantidad").value="";
     document.getElementById("medioVen").selectedIndex=0;
     document.getElementById("dialogVenta").close();
-    numero--;
 }
 
 function agregarVenta() {
     if (document.getElementById("formVenta").reportValidity()){
-        //let articulo=articulosCombo[document.getElementById("codigoVen").selectedIndex];
-        //let influencer=influencersCombo[document.getElementById("infVen").selectedIndex];
+        numero++;
         let articulo=sist.listaArticulos[document.getElementById("codigoVen").selectedIndex];
         let influencer=sist.listaInfluencers[document.getElementById("infVen").selectedIndex];
         let cantidad=document.getElementById("idCantidad").value;
         let medio=document.getElementById("medioVen").value;
         let nuevaVen=new Venta(numero, articulo, influencer, cantidad, medio);
         sist.listaVentas.push(nuevaVen);
-        console.log(nuevaVen);
-        console.log(articulosCombo);
-        console.log(influencersCombo);
+        document.getElementById("codigoVen").selectedIndex=0;
+        document.getElementById("infVen").selectedIndex=0;
+        document.getElementById("idCantidad").value="";
+        document.getElementById("medioVen").selectedIndex=0;
+        cargarTablaInf();
         cargarTablaVen();
-        cancelarVenta();
+        altaVenta();
     }
 }
 
-function cargarComboArt(){
+function cargarSelectArt(){
     let lista=document.getElementById("codigoVen");
     lista.innerHTML="";
-    let articulosCombo=sist.listaArticulos;
-    articulosCombo.sort(function(a,b){
-        return a.codigo.localeCompare(b.codigo);
-    })
-    for (let i=0; i<articulosCombo.length; i++){
+    let articulosSelect=sist.listaArticulos.toSorted(function(a,b){ return a.codigo.localeCompare(b.codigo) });
+    for (let i=0; i<articulosSelect.length; i++){
         let nodo=document.createElement("option");
-        nodo.innerHTML=articulosCombo[i].codigo;
+        nodo.innerHTML=articulosSelect[i].codigo;
         lista.appendChild(nodo);
     }
 }
 
-function cargarComboInf(){
+function cargarSelectInf(){
     let lista=document.getElementById("infVen");
     lista.innerHTML="";
-    let influencersCombo=sist.listaInfluencers;
-    influencersCombo.sort(function(a,b){
-        return a.nombre.localeCompare(b.nombre);
-    })
-    for (let i=0; i<influencersCombo.length; i++){
+    let influencersSelect=sist.listaInfluencers.toSorted(function(a,b){ return a.nombre.localeCompare(b.nombre) });
+    for (let i=0; i<influencersSelect.length; i++){
         let nodo=document.createElement("option");
-        nodo.innerHTML=influencersCombo[i].nombre;
+        nodo.innerHTML=influencersSelect[i].nombre;
         lista.appendChild(nodo);
     }
 }
@@ -370,4 +365,5 @@ function borrarVenta(venta){
     let lugarABorrar=sist.listaVentas.indexOf(venta);
     sist.listaVentas.splice(lugarABorrar, 1);
     cargarTablaVen();
+    cargarTablaInf();
 }
