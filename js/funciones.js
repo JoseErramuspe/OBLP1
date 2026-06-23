@@ -84,15 +84,16 @@ function asignarEtiquetas(influAsign) {
         noVentas = true;
     }
     // ventaCara
+    // La etiqueta de ventaCara anda mal, me está poniendo esa etiqueta en todos los influencers con ventas, no solo el que hizo la más cara
     let ventaCara = [];
     let ventaCaraPrecio = 0;
     for (let venta of sist.listaVentas) {
         if (venta.articulo.precio*venta.cantidad > ventaCaraPrecio) {
             ventaCaraPrecio = venta.articulo.precio*venta.cantidad;
             ventaCara = [];
-            ventaCara.push(venta.Influencer);
+            ventaCara.push(venta.influencer);
         } else if (venta.articulo.precio*venta.cantidad == ventaCaraPrecio) {
-            ventaCara.push(venta.Influencer);
+            ventaCara.push(venta.influencer);
         }
     }
     if (ventaCara.includes(influAsign)) {
@@ -202,22 +203,19 @@ function cambiarOrdenArt(){
 }
 
 function artMasVendido(artAsign) {
-    let artVentas = [];
     let masVendidos = [];
     let cantVentas = 0;
-    for (let venta of sist.listaVentas) {
-        // venta.articulo.codigo no es un número, es un string, igual no probé si estaba bien o mal, pero se me hace raro
-        artVentas[venta.articulo.codigo] += artVentas[venta.articulo.cantidad];
-        if (artVentas[venta.articulo.codigo] > cantVentas) {
-            cantVentas = artVentas[venta.articulo.codigo];
+    for (let articulo of sist.listaArticulos) {
+        if (sist.contarVentas(articulo) > cantVentas) {
+            cantVentas = sist.contarVentas(articulo);
             masVendidos = [];
-            masVendidos.push(venta.articulo);
-        } else if (artVentas[venta.articulo.codigo] == cantVentas) {
-            masVendidos.push(venta.articulo);
+            masVendidos.push(articulo);
+        } else if (sist.contarVentas(articulo) == cantVentas) {
+            masVendidos.push(articulo);
         }
     }
     let etiquetas = "";
-    if (masVendidos.includes(artAsign)) {
+    if (masVendidos.includes(artAsign) && cantVentas!=0) {
         etiquetas += "⭐";
     }
     return etiquetas;
@@ -289,6 +287,7 @@ function agregarVenta() {
         document.getElementById("idCantidad").value="";
         document.getElementById("medioVen").selectedIndex=0;
         cargarTablaInf();
+        cargarTablaArt();
         cargarTablaVen();
         altaVenta();
     }
@@ -364,6 +363,7 @@ function cargarTablaVen(){
 function borrarVenta(venta){
     let lugarABorrar=sist.listaVentas.indexOf(venta);
     sist.listaVentas.splice(lugarABorrar, 1);
-    cargarTablaVen();
     cargarTablaInf();
+    cargarTablaArt();
+    cargarTablaVen();
 }
