@@ -2,10 +2,12 @@ let sist=new Sistema();
 let numero=0;
 let ordenAlfabeticoInf=true;
 let ordenAlfabeticoArt=true;
+let grafBurbujas = null;
 
 window.addEventListener("load", inicio)
 
 function inicio() {
+    cargarGraficoBurbujas();
     document.getElementById("botonCanInf").addEventListener("click", cancelarInfluencer);
     document.getElementById("botonAgrInf").addEventListener("click", agregarInfluencer);
     document.getElementById("botonListInf").addEventListener("click", cambiarOrdenInf);
@@ -95,6 +97,7 @@ function asignarEtiquetas(influAsign) {
         } else if (venta.articulo.precio*venta.cantidad == ventaCaraPrecio) {
             ventaCara.push(venta.influencer);
         }
+        console.log(ventaCara);
     }
     if (ventaCara.includes(influAsign)) {
         ventaMasCara = true;
@@ -106,7 +109,7 @@ function asignarEtiquetas(influAsign) {
     if (noVentas) {
         etiquetas += "🧊"
     }
-    if (ventaCara && !noVentas) {
+    if (ventaMasCara && !noVentas) {
         etiquetas += "🟢"
     }
     return etiquetas;
@@ -197,7 +200,7 @@ function cancelarArticulo() {
     document.getElementById("dialogArticulo").close();
 }
 
-function cambiarOrdenArt(){
+function cambiarOrdenArt() {
     ordenAlfabeticoArt=!ordenAlfabeticoArt;
     cargarTablaArt();
 }
@@ -251,7 +254,7 @@ function cargarTablaArt() {
     }
 }
 
-function altaVenta(){
+function altaVenta() {
     if(sist.listaInfluencers.length==0){
         event.preventDefault();
         alert("No se pueden hacer ventas porque no hay influencers registrados");
@@ -265,7 +268,7 @@ function altaVenta(){
     }
 }
 
-function cancelarVenta(){
+function cancelarVenta() {
     document.getElementById("codigoVen").selectedIndex=0;
     document.getElementById("infVen").selectedIndex=0;
     document.getElementById("idCantidad").value="";
@@ -293,7 +296,7 @@ function agregarVenta() {
     }
 }
 
-function cargarSelectArt(){
+function cargarSelectArt() {
     let lista=document.getElementById("codigoVen");
     lista.innerHTML="";
     let articulosSelect=sist.listaArticulos.toSorted(function(a,b){ return a.codigo.localeCompare(b.codigo) });
@@ -304,7 +307,7 @@ function cargarSelectArt(){
     }
 }
 
-function cargarSelectInf(){
+function cargarSelectInf() {
     let lista=document.getElementById("infVen");
     lista.innerHTML="";
     let influencersSelect=sist.listaInfluencers.toSorted(function(a,b){ return a.nombre.localeCompare(b.nombre) });
@@ -315,8 +318,8 @@ function cargarSelectInf(){
     }
 }
 
-// Esta función me da errores, no pone los datos en la tabla y la consola da este error "Uncaught TypeError: Cannot read properties of undefined (reading 'codigo')" en la línea 346 
-function cargarTablaVen(){
+// Esta función me da errores, no pone los datos en la tabla y la consola da este error "Uncaught TypeError: Cannot read properties of undefined (reading "codigo)" en la línea 346 
+function cargarTablaVen() {
     let tabla=document.getElementById("tablaVen");
     tabla.innerHTML="";
     let headerRow = tabla.insertRow();
@@ -358,12 +361,80 @@ function cargarTablaVen(){
         botonBorrar.addEventListener("click", () => borrarVenta(venta));
         celda6.appendChild(botonBorrar);
     }
+    grafBurbujas.destroy();
+    cargarGraficoBurbujas();
 }
 
-function borrarVenta(venta){
+function borrarVenta(venta) {
     let lugarABorrar=sist.listaVentas.indexOf(venta);
     sist.listaVentas.splice(lugarABorrar, 1);
     cargarTablaInf();
     cargarTablaArt();
     cargarTablaVen();
+}
+
+function cargarGraficoBurbujas() {
+    let valorVentas = [0,0,0,0,0,0];
+    for(let venta of sist.listaVentas) {
+        let medio = venta.medio.split("-").pop();
+        if(medio == "Instagram") {
+            valorVentas[0] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        } else if (medio == "YouTube") {
+            valorVentas[1] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        } else if (medio == "X") {
+            valorVentas[2] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        } else if (medio == "TikTok") {
+            valorVentas[3] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        } else if (medio == "Facebook") {
+            valorVentas[4] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        } else {
+            valorVentas[5] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
+        }
+    }
+    let ctx = document.getElementById("graficoBurbujas").getContext("2d");
+    let data = {
+        datasets: [
+            {
+                label: "Instagram",
+                data: [{ x: 1, y: 1, r: valorVentas[0] }],
+                backgroundColor: "red"
+            },
+            {
+                label: "YouTube",
+                data: [{ x: 2, y: 1, r: valorVentas[1] }],
+                backgroundColor: "blue"
+            },
+            {
+                label: "X",
+                data: [{ x: 3, y: 1, r: valorVentas[2] }],
+                backgroundColor: "green"
+            },
+            {
+                label: "TikTok",
+                data: [{ x: 4, y: 1, r: valorVentas[3] }],
+                backgroundColor: "orange"
+            },
+            {
+                label: "Facebook",
+                data: [{ x: 5, y: 1, r: valorVentas[4] }],
+                backgroundColor: "purple"
+            },
+            {
+                label: "Otras",
+                data: [{ x: 6, y: 1, r: valorVentas[5] }],
+                backgroundColor: "brown"
+            }
+        ]
+    };
+    let config = {
+        type: "bubble",
+        data: data,
+        options: {
+            scales: {
+            x: { display: false },
+            y: { display: false }
+            }
+        }
+    };
+    grafBurbujas = new Chart(ctx, config);
 }
