@@ -3,8 +3,34 @@ let numero=0;
 let ordenAlfabeticoInf=true;
 let ordenAlfabeticoArt=true;
 let grafBurbujas = null;
+let valorVentas = [0,0,0,0,0,0,0];
+const textoEnBurbujas = {
+    id: "textoEnBurbujas",
 
-window.addEventListener("load", inicio)
+    afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+
+        chart.data.datasets.forEach((dataset, i) => {
+            const punto = chart.getDatasetMeta(i).data[0];
+
+            ctx.save();
+            ctx.fillStyle = "black";
+            ctx.font = "14px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            ctx.fillText(
+                dataset.data[0].valor,
+                punto.x,
+                punto.y
+            );
+
+            ctx.restore();
+        });
+    }
+};
+
+window.addEventListener("load", inicio);
 
 function inicio() {
     cargarGraficoBurbujas();
@@ -23,7 +49,7 @@ function agregarInfluencer() {
     if (document.getElementById("formInfluencer").reportValidity()){
         let nombre=document.getElementById("idNombre").value;
         let mail=document.getElementById("idMail").value;
-        let comision=document.getElementById("idComision").value;
+        let comision=parseInt(document.getElementById("idComision").value);
         let nuevoInf=new Influencer(nombre, mail, comision);
         sist.listaInfluencers.push(nuevoInf);
         document.getElementById("idNombre").value="";
@@ -63,7 +89,7 @@ function asignarEtiquetas(influAsign) {
     // Top comision
     let topComInflu = [];
     let topComVenta = 0;
-    for (influencer of sist.listaInfluencers) {
+    for (let influencer of sist.listaInfluencers) {
         if (calcularComision(influencer) > topComVenta) {
             topComVenta = calcularComision(influencer);
             topComInflu = [];
@@ -86,7 +112,6 @@ function asignarEtiquetas(influAsign) {
         noVentas = true;
     }
     // ventaCara
-    // La etiqueta de ventaCara anda mal, me está poniendo esa etiqueta en todos los influencers con ventas, no solo el que hizo la más cara
     let ventaCara = [];
     let ventaCaraPrecio = 0;
     for (let venta of sist.listaVentas) {
@@ -104,13 +129,13 @@ function asignarEtiquetas(influAsign) {
     }
     let etiquetas = "";
     if (topCom && !noVentas) {
-        etiquetas += "🔥 "
+        etiquetas += "🔥 ";
     }
     if (noVentas) {
-        etiquetas += "🧊"
+        etiquetas += "🧊";
     }
     if (ventaMasCara && !noVentas) {
-        etiquetas += "🟢"
+        etiquetas += "🟢";
     }
     return etiquetas;
 }
@@ -123,7 +148,7 @@ function botonVentas(influencer) {
         }
     }
     if (ventasInfluencer=="Ventas: \n"){
-        ventasInfluencer+="Sin datos"
+        ventasInfluencer+="Sin datos";
     }
     alert(ventasInfluencer);
 }
@@ -182,7 +207,7 @@ function agregarArticulo() {
     if (document.getElementById("formArticulo").reportValidity()){
         let codigo=document.getElementById("idCodigo").value;
         let descripcion=document.getElementById("idDesc").value;
-        let precio=document.getElementById("idPrecio").value;
+        let precio=parseInt(document.getElementById("idPrecio").value);
         let nuevoArt=new Articulo(codigo, descripcion, precio);
         sist.listaArticulos.push(nuevoArt);
         document.getElementById("idCodigo").value="";
@@ -318,7 +343,6 @@ function cargarSelectInf() {
     }
 }
 
-// Esta función me da errores, no pone los datos en la tabla y la consola da este error "Uncaught TypeError: Cannot read properties of undefined (reading "codigo)" en la línea 346 
 function cargarTablaVen() {
     let tabla=document.getElementById("tablaVen");
     tabla.innerHTML="";
@@ -374,54 +398,43 @@ function borrarVenta(venta) {
 }
 
 function cargarGraficoBurbujas() {
-    let valorVentas = [0,0,0,0,0,0];
+    valorVentas=[0,0,0,0,0,0,0];
+    let radioMax=40;
     for(let venta of sist.listaVentas) {
-        let medio = venta.medio.split("-").pop();
-        if(medio == "Instagram") {
-            valorVentas[0] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        } else if (medio == "YouTube") {
-            valorVentas[1] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        } else if (medio == "X") {
-            valorVentas[2] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        } else if (medio == "TikTok") {
-            valorVentas[3] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        } else if (medio == "Facebook") {
-            valorVentas[4] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        } else {
-            valorVentas[5] += parseInt(venta.articulo.precio)*parseInt(venta.cantidad);
-        }
+        let medio = parseInt(venta.medio.split("-")[0]);
+        valorVentas[medio] += venta.articulo.precio*venta.cantidad;
     }
     let ctx = document.getElementById("graficoBurbujas").getContext("2d");
     let data = {
         datasets: [
             {
                 label: "Instagram",
-                data: [{ x: 1, y: 1, r: valorVentas[0] }],
+                data: [{ x: 1, y: 1, r: calcularRadio(valorVentas[1]), valor:valorVentas[1] }],
                 backgroundColor: "red"
             },
             {
                 label: "YouTube",
-                data: [{ x: 2, y: 1, r: valorVentas[1] }],
+                data: [{ x: 2, y: 1, r: calcularRadio(valorVentas[2]), valor:valorVentas[2] }],
                 backgroundColor: "blue"
             },
             {
                 label: "X",
-                data: [{ x: 3, y: 1, r: valorVentas[2] }],
+                data: [{ x: 3, y: 1, r: calcularRadio(valorVentas[3]), valor:valorVentas[3] }],
                 backgroundColor: "green"
             },
             {
                 label: "TikTok",
-                data: [{ x: 4, y: 1, r: valorVentas[3] }],
+                data: [{ x: 4, y: 1, r: calcularRadio(valorVentas[4]), valor:valorVentas[4] }],
                 backgroundColor: "orange"
             },
             {
                 label: "Facebook",
-                data: [{ x: 5, y: 1, r: valorVentas[4] }],
+                data: [{ x: 5, y: 1, r: calcularRadio(valorVentas[5]), valor:valorVentas[5] }],
                 backgroundColor: "purple"
             },
             {
                 label: "Otras",
-                data: [{ x: 6, y: 1, r: valorVentas[5] }],
+                data: [{ x: 6, y: 1, r: calcularRadio(valorVentas[6]), valor:valorVentas[6] }],
                 backgroundColor: "brown"
             }
         ]
@@ -431,10 +444,24 @@ function cargarGraficoBurbujas() {
         data: data,
         options: {
             scales: {
-            x: { display: false },
+            x: {
+                display: false,
+                min: 0,
+                max: 7,
+            },
             y: { display: false }
             }
         }
     };
+    config.plugins = [textoEnBurbujas];
     grafBurbujas = new Chart(ctx, config);
+}
+
+function calcularRadio(ventasMedio){
+    let ventasOrdenadas = valorVentas.toSorted(function(a,b){return b-a});
+    let radio = 5;
+    if(ventasOrdenadas[0]!=0){
+        radio += (ventasMedio-ventasOrdenadas[5])*45/(ventasOrdenadas[0]-ventasOrdenadas[5]);
+    }
+    return radio;
 }
