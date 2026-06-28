@@ -1,3 +1,6 @@
+// José Gabriel Erramuspe Rodríguez - 353422
+// Damián Agustín Torres Aramburu - 371643
+
 class Sistema{
     constructor(){
         this.listaInfluencers=[];
