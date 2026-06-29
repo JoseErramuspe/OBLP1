@@ -125,7 +125,6 @@ function asignarEtiquetas(influAsign) {
         } else if (venta.articulo.precio*venta.cantidad == ventaCaraPrecio) {
             ventaCara.push(venta.influencer);
         }
-        console.log(ventaCara);
     }
     if (ventaCara.includes(influAsign)) {
         ventaMasCara = true;
