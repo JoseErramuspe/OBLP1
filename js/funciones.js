@@ -306,9 +306,22 @@ function cancelarVenta() {
 function agregarVenta() {
     if (document.getElementById("formVenta").reportValidity()){
         numero++;
-        let articulo=sist.listaArticulos[document.getElementById("codigoVen").selectedIndex];
-        let influencer=sist.listaInfluencers[document.getElementById("infVen").selectedIndex];
-        let cantidad=document.getElementById("idCantidad").value;
+        let codigo=document.getElementById("codigoVen").value;
+        let articulo="";
+        if(ordenAlfabeticoArt){
+            articulo=sist.listaArticulos[document.getElementById("codigoVen").selectedIndex];
+        }
+        else{
+            articulo=sist.listaArticulos[sist.listaArticulos.length-1-document.getElementById("codigoVen").selectedIndex];
+        }
+        let influencer="";
+        if(ordenAlfabeticoInf){
+            influencer=sist.listaInfluencers[document.getElementById("infVen").selectedIndex];
+        }
+        else{
+            influencer=sist.listaInfluencers[sist.listaInfluencers.length-1-document.getElementById("infVen").selectedIndex];
+        }
+        let cantidad=parseInt(document.getElementById("idCantidad").value);
         let medio=document.getElementById("medioVen").value;
         let nuevaVen=new Venta(numero, articulo, influencer, cantidad, medio);
         sist.listaVentas.push(nuevaVen);
